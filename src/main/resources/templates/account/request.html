@@ -17,6 +17,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
+    <link rel="stylesheet" href="/css/styles.css">
     <meta charset="utf-8">
     <title>Request Money</title>
 </head>
@@ -24,19 +25,19 @@
 <h1>Request Money</h1>
 <form th:action="@{/account/request}" method="post">
     <p>
-        Description
+        <label>Description</label>
         <input type="text" name="description">
     </p>
     <p>
-        Amount
+        <label>Amount</label>
         <input type="text" name="amount">
     </p>
     <p>
-        From
+        <label>From (email)</label>
         <input type="text" name="from">
     </p>
     <p>
-        <input type="submit" value="Request Money">
+        <input type="submit" value="Request Money" class="button">
     </p>
 </form>
 </body>

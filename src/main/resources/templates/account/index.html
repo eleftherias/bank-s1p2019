@@ -15,25 +15,38 @@
   -->
 
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
+    <link rel="stylesheet" href="/css/styles.css">
     <meta charset="utf-8">
     <title>Account</title>
 </head>
 <body>
 <h1>Account</h1>
 <p>Welcome <span th:text="${currentUser.firstName}"></span></p>
-<p>Your balance is <span th:text="${account.balance}"></span></p>
+<p>Your balance is $<span th:text="${#numbers.formatDecimal(account.balance, 0, 'COMMA', 2, 'POINT')}"></span></p>
 <h2>Transfer Requests</h2>
 <div>
-    <a th:href="@{/account/request}">Request Money</a>
+    <a th:href="@{/account/request}" class="button">Request Money</a>
 </div>
 <table>
+    <tr>
+        <th>From</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Approval</th>
+    </tr>
     <tr th:each="request : ${transfers}">
         <td th:text="${request.transferTo.owner.email}"></td>
-        <td th:text="${request.amount}"></td>
+        <td>$<span th:text="${#numbers.formatDecimal(request.amount, 0, 'COMMA', 2, 'POINT')}"></span></td>
         <td th:text="${request.description}"></td>
-        <td><form th:action="@{/account/request/approve}" method="post"><input type="hidden" name="requestId" th:value="${request.id}"><input type="submit" value="Approve"></form></td>
+        <td>
+            <form th:action="@{/account/request/approve}" method="post">
+                <input type="hidden" name="requestId" th:value="${request.id}">
+                <input type="submit" value="Approve" class="button">
+            </form>
+        </td>
     </tr>
 </table>
 </body>
