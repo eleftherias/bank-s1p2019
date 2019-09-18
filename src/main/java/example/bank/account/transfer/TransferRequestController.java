@@ -19,6 +19,7 @@ package example.bank.account.transfer;
 import example.bank.account.Account;
 import example.bank.account.AccountRepository;
 import example.bank.user.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,7 +50,7 @@ public class TransferRequestController {
 	}
 
 	@PostMapping
-	String request(@ModelAttribute("currentUser") User currentUser, @ModelAttribute TransferRequestDto transfer) {
+	String request(@AuthenticationPrincipal User currentUser, @ModelAttribute TransferRequestDto transfer) {
 		Account from = this.accounts.findAccountByOwnerEmail(transfer.getFrom());
 		Account to = this.accounts.findAccountByOwnerId(currentUser.getId());
 		this.requests.save(new TransferRequest(transfer.getDescription(), to, from, transfer.getAmount()));

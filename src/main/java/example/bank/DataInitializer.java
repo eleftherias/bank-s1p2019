@@ -23,6 +23,7 @@ import example.bank.account.transfer.TransferRequest;
 import example.bank.user.User;
 import example.bank.user.UserRepository;
 import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,19 +37,22 @@ public class DataInitializer implements SmartInitializingSingleton {
 
 	private final TransferRequestRepository requests;
 
+	private final PasswordEncoder passwordEncoder;
+
 	public DataInitializer(UserRepository users, AccountRepository accounts,
-			TransferRequestRepository requests) {
+			TransferRequestRepository requests, PasswordEncoder passwordEncoder) {
 		this.users = users;
 		this.accounts = accounts;
 		this.requests = requests;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
 	public void afterSingletonsInstantiated() {
 		User ria = this.users
-				.save(new User(1L, "Ria", "Stein", "ria@example.com", "password"));
+				.save(new User(1L, "Ria", "Stein", "ria@example.com", passwordEncoder.encode("password")));
 		User rob = this.users
-				.save(new User(2L, "Rob", "Winch", "rob@example.com", "password"));
+				.save(new User(2L, "Rob", "Winch", "rob@example.com", passwordEncoder.encode("password")));
 
 		Account riaAccount = this.accounts.save(new Account(ria, 1_000_000.00));
 		Account robAccount = this.accounts.save(new Account(rob, 10.00));
