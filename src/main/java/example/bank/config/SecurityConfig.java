@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         requests.anyRequest().authenticated()
                 )
                 .formLogin(withDefaults())
+                .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);
-
     }
 }
